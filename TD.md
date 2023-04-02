@@ -172,6 +172,8 @@ RESPONSE PAYLOAD EXAMPLE
   - We will have to load all the IP address values for the IP ids to be removed and check if the IP addresses to add contains any of the IP address to be removed. 
   - If this is the case, return an error. 
 - Same error considerations will be followed when adding additional IP(s)/CIDR(s)
+- When updating the name, the database will not check against the current blocklist
+  - Eg: If for some reason the user edits the blocklist name and it is the same as the original
 
 #### Error Handling
 The API will handle the validation scenarios outlined in the above sequence diagram. Any of the errors returned will be displayed in the UI for the user.
