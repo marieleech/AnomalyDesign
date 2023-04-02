@@ -129,6 +129,7 @@ The API will handle the validation scenarios outlined in the above sequence diag
 When a user wants to add or delete entries for a specific blocklist, they will have to provide the following:
 - list of IPs or CIDRs they want to add
 - list of IP or CIDR IDs they want to delete
+- new blocklist name
 
 <img src="./resources/patch_view_ui.png" height="50%" width="50%">
 
@@ -144,7 +145,7 @@ Request body example
 ```
 REQUEST EXAMPLE
   curl -PATCH 'https://example.com/api/blocklists/uuid-1' \
-  -D '{"delete": [1, 2], "add": ["12.13.14.15", "12.13.14.16"]}'
+  -D '{"delete": [1, 2], "add": ["12.13.14.15", "12.13.14.16"], "name": "newList.netset"}'
   -H 'Authorization: Bearer eyJhbG...'
 
 RESPONSE PAYLOAD EXAMPLE
