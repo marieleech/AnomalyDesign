@@ -138,11 +138,11 @@ paths:
         '200':
           description: Successfully deleted blocklist
           content:
-            type: application/json
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/IPSearchResult'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IPSearchResult'
 
         '403':
           description: User is not authorized
