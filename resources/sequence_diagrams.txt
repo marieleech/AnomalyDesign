@@ -43,6 +43,7 @@ API-->API: Validate loaded IP/CIDR records are not within "add" list
 UI<--API: Return error if lists have common values
 end
 alt TRANSACTIONAL
+API->Database: Update blocklist name if not null
 alt body.iptoadd is not empty
 API->Database: Find if IP(s)/CIDR(s) exists already for this blocklist.
 API<-Database: Return if IP(s)/CIDR(s) was found
@@ -55,7 +56,7 @@ API->Database: Delete record if found
 UI<--API: If not found, do nothing and return which IP(s)/CIDR(s) were not found
 end
 end
-UI<-API: Return success and IPObjects added (if any)
+UI<-API: Return success and new entries added (if any)
 
 ### Get a Specific Blocklist
 The REST API endpoint that will get a specific blocklist is `api/blocklists/{id}`
