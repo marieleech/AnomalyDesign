@@ -324,6 +324,7 @@ In terms of authorizing the request, each request should pass in an JWT access t
     - CI is green
     - 2 LGTMs have been received
     - QA validation has passed
+- CI/CD
   - Once merged
     - Run the CI again on master
     - Validate master branch build is successful
