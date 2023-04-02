@@ -1,0 +1,133 @@
+### Create Blocklists
+title Create a blocklist flowchart
+
+UI->API endpoint /api/blocklists: Blocklist file(s)
+API endpoint /api/blocklists<--API endpoint /api/blocklists: Validate if requester is authorized
+API endpoint /api/blocklists<--API endpoint /api/blocklists: Validate file extension
+API endpoint /api/blocklists<--API endpoint /api/blocklists: Validate file is safe to read (antivirus 3rd party)
+API endpoint /api/blocklists<--API endpoint /api/blocklists: Validate unique file name constraint
+API endpoint /api/blocklists<--API endpoint /api/blocklists: Read file and validate IPs
+API endpoint /api/blocklists-->UI: Return errors if any (fails fast)
+API endpoint /api/blocklists -> Database: Insert blocklist information in database
+API endpoint /api/blocklists<-Database: Unique blocklist ID generated
+UI<-API endpoint /api/blocklists: Success message and blocklist ID will be returned
+
+### Get All Blocklists
+title Get all blocklists flowchart
+
+UI->API: Request to get blocklists (api/blocklists)
+API<--API: Validate if requester is authorized
+API-->UI: Return errors if any (fails fast)
+API -> Database: Get blocklist names and type
+API<-Database: Return blocklist names
+UI<-API: Return blocklist names and types (paginated)
+
+### Update a Specific Blocklist
+The REST API endpoint that will update a specific blocklist is `api/blocklists/{id}`
+title Update blocklist flowchart
+
+UI->API: Request to PATCH specific blocklist (api/blocklists/{id})
+API<--API: Validate if requester is authorized
+API->Database: Check if blocklist exists
+UI<--API: Return error if blocklist is not found
+API-->API: Validate provided IP(s)/CIDR(s)
+UI<--API: Return error if invalid values provided
+alt Validate IP(s)/CIDR(s) to add/remove are mutually exclusive
+API->Database: Find IP/CIDR records included in "deleted" list
+Database<-API: Return IP/CIDR records
+API-->API: Validate loaded IP/CIDR records are not within "add" list
+UI<--API: Return error if lists have common values
+end
+alt TRANSACTIONAL
+alt body.iptoadd is not empty
+API->Database: Find if IP(s)/CIDR(s) exists already for this blocklist.
+API<-Database: Return if IP(s)/CIDR(s) was found
+API->Database: Insert if not found, do nothing if found
+API<-Database: Return IP/CIDR record
+else body.iptoremove is not empty
+API->Database: Find if IP(s)/CIDR(s) exists for this blocklist.
+API<-Database: Return if IP(s)/CIDR(s) was found
+API->Database: Delete record if found
+UI<--API: If not found, do nothing and return which IP(s)/CIDR(s) were not found
+end
+end
+UI<-API: Return success and IPObjects added (if any)
+
+### Get a Specific Blocklist
+The REST API endpoint that will get a specific blocklist is `api/blocklists/{id}`
+title Get specific blocklist flowchart
+
+UI->API: Request to fetch specific blocklist (api/blocklists/{id})
+API<--API: Validate if requester is authorized
+API->Database: Check if blocklist exists
+alt if block list exists
+API<-Database: Return blocklist record
+API->Database: Query for block list content from necessary table (IP or CIDR)
+API<-Database: Return blocklist content
+UI<-API: Return paginated blocklist content
+
+else if block list does not exist
+API<-Database: Return empty
+UI<--API: Return blocklist not found error
+end
+
+
+### Delete a Specific Blocklist
+The REST API endpoint that will delete a specific blocklist is `api/blocklists/{id}`
+title Delete specific blocklist flowchart
+
+UI->API: Request to delete specific blocklist (api/blocklists/{id})
+API<--API: Validate if requester is authorized
+API->Database: Check if blocklist exists
+alt if block list exists
+API<-Database: Return blocklist record
+API->Database: Delete IP or CIDR record from IP/CIDR tables
+API->Database: Delete blocklist record from blocklist table
+UI<-API: Return successfully deleted message
+else if block list does not exist
+API<-Database: Return empty
+UI<--API: Return blocklist not found error
+end
+
+### Search For Specific IP Address
+The REST API endpoint that will search for a specific IP address is `api/search`. The user will be able to use a query parameter to search for the IP address. Eg: `api/search?ip=1.2.3.4`
+title Search if IP is in blocklist flowchart
+
+UI->API: Request to search for specific IP address (api/search)
+API<--API: Validate if requester is authorized
+API->Database: Check if IP is present in IP table
+alt if IP exists
+API<-Database: Return blocklist id(s)
+UI<-API: Return blocklist id(s)
+else if block list does not exist
+API<-Database: Return empty
+UI<--API: Return empty
+end
+
+### Search if IP is blocked
+title Search if IP is blocked flowchart
+
+UI->API: Request to search for specific IP address (api/search)
+API<--API: Validate if requester is authorized
+API->Database: Check if IP is present in IP table
+alt if IP exists
+API<-Database: Return blocklist id(s)
+UI<-API: Return isBlocked === true
+else if IP does not exist
+API<-Database: Return empty
+API->Database: For each CIDR range in CIDR table, check if IP is in range
+alt if it blocks
+API<-Database: Return CIDR range
+UI<-API: Return isBlocked === true
+end
+UI<--API: Return isBlocked === false
+end
+
+### Authentication Flow
+title Authentication of User
+User->Client: Tries to log into UI
+Client->Authorization Server: Redirects user
+Authorization Server-->Authorization Server: User authenticates themselves and gives certain permissions to the client
+Client<-Authorization Server: Returns authoriztion to access resoure server
+Client->Resource Server: Uses given authorization
+Client<-Resource Server: Sends back user data
