@@ -27,6 +27,7 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/BlocklistRecord'
+
         '400':
           description: Contents of blocklist are invalid, invalid file extension, non-unique name
         '403':
@@ -162,14 +163,14 @@ paths:
         '200':
           description: IP address and if it is blocked
           content:
-            type: application/json
-            schema:
-              type: object
-              properties:
-                ipaddress:
-                  type: string
-                isBlocked:
-                  type: boolean
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ipaddress:
+                    type: string
+                  isBlocked:
+                    type: boolean
         '403':
           description: User is not authorized
 
