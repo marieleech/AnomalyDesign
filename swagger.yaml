@@ -62,7 +62,7 @@ paths:
           schema:
             type: array
             items:
-              string
+              type: string
         - in: body
           name: add
           required: false
@@ -70,7 +70,7 @@ paths:
           schema:
             type: array
             items:
-              string
+              type: string
 
       responses:
         '200':
@@ -207,7 +207,7 @@ components:
         entries:
           type: array
           items:
-            BlocklistEntry
+            $ref: '#/components/schemas/BlocklistEntry'
         required:
           - id
           - name
@@ -244,4 +244,4 @@ components:
               description: Blocklist IDs where the IP is found
               type: array
               items:
-                string
+                type: string
