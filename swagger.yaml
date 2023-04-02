@@ -40,8 +40,6 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                itmes:
                   $ref: '#/components/schemas/BlocklistRecord'
         '403':
           description: User is not authorized
@@ -190,7 +188,7 @@ components:
         entries:
           type: array
           items:
-            $ref: BlocklistEntry
+            $ref: '#/components/schemas/BlocklistEntry'
       required:
         - id
         - name
