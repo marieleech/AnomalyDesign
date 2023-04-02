@@ -23,9 +23,10 @@ paths:
               schema:
                 type: object
                 properties:
-                  created: array
-                  items:
-                    $ref: '#/components/schemas/BlocklistRecord'
+                  created:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BlocklistRecord'
         '400':
           description: Contents of blocklist are invalid, invalid file extension, non-unique name
         '403':
@@ -141,7 +142,7 @@ paths:
             type: application/json
             schema:
               type: array
-              itmes:
+              items:
                 $ref: '#/components/schemas/IPSearchResult'
 
         '403':
