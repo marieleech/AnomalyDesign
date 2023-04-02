@@ -1,8 +1,8 @@
 # Anomaly Detection
 
 ## Table of Contents
-- [Create Blocklists](./TD.md#create-blocklists)
 - [Summary](./TD.md#summary)
+- [Create Blocklists](./TD.md#create-blocklists)
 - [Update Specific Blocklist](./TD.md#update-a-specific-blocklist)
 - [Get All Blocklists](./TD.md#get-all-blocklists)
 - [Get Specific Blocklist](./TD.md#get-a-specific-blocklist)
@@ -104,7 +104,7 @@ REQUEST EXAMPLE
 
 RESPONSE PAYLOAD EXAMPLE
 {
-  "blocklits": [
+  "blocklists": [
     blocklist: {
       "id": "uuid-1",
       "name": "blocklist name1",
@@ -149,16 +149,16 @@ REQUEST EXAMPLE
 
 RESPONSE PAYLOAD EXAMPLE
 {
-  "blocklistEntry": [
+  "blocklistEntries": [
     {
       "id": 1,
-      "value": "12.13.14.15"
-      type: ip
+      "value": "12.13.14.15",
+      "type": "ip"
     },
     {
       "id": 2,
-      "value": "12.13.14.16"
-      type: ip
+      "value": "12.13.14.16",
+      "type": "ip"
     }
   ]
 }
