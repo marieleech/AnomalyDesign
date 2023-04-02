@@ -72,6 +72,12 @@ paths:
             type: array
             items:
               type: string
+        - in: body
+          name: name
+          required: false
+          description: New name for blocklist
+          schema:
+            type: string
 
       responses:
         '200':
