@@ -10,6 +10,7 @@
 - [Search for Specific IP Address](./TD.md#search-for-specific-ip-address)
 - [Search if IP is Blocked](./TD.md#search-if-ip-is-blocked)
 - [Authorization](./TD.md#authorization)
+- [Release](./TD.md#release-process)
 - [Deployment](./TD.md#deployment)
 - [Data Storage](./TD.md#data-storage)
 - [Testing](./TD.md#testing)
