@@ -317,6 +317,24 @@ Example:
 In terms of authorizing the request, each request should pass in an JWT access token as a header
 - `Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...`
 
+### Release Process
+- Development
+  - PR can be merged if
+    - CI is green
+    - 2 LGTMs have been received
+    - QA validation has passed
+  - Once merged
+    - Run the CI again on master
+    - Validate master branch build is successful
+      - if successful: continue deployment
+      - if unsuccessful: send failure alerts to slack
+    - Start CD (jenkins)
+      - Assuming we have test and prod environments
+        - Goes through each environment step and continues to the next one if E2E and other tests are successful
+        - Could also have additional tests depending on each environment
+      - See more details in [deployment strategies](./TD.md#deployment-strategies)
+    - Once available on certain environments, notify team of successful deployment
+
 ### Deployment
 This application will be deployed on different clusters. As a result, each deployment of the application will be isolated from each other, which means each deployment will have its dedicated database. 
 - Example:
