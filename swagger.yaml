@@ -166,9 +166,9 @@ paths:
             schema:
               type: object
               properties:
-                - name: ipaddress
+                ipaddress:
                   type: string
-                - name: isBlocked
+                isBlocked:
                   type: boolean
         '403':
           description: User is not authorized
@@ -230,18 +230,18 @@ components:
         - type
             
     IPSearchResult:
-    type: object
-    properties:
-      result:
-        type: array
-        items:
-          type: object
-          properties:
-            ip:
-              type: string
-              description: IP address searched
-            blocklistIds:
-              description: Blocklist IDs where the IP is found
-              type: array
-              items:
+      type: object
+      properties:
+        result:
+          type: array
+          items:
+            type: object
+            properties:
+              ip:
+                description: IP address searched
                 type: string
+              blocklistIds:
+                description: Blocklist IDs where the IP is found
+                type: array
+                items:
+                  type: string
