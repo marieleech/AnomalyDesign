@@ -29,7 +29,11 @@ title Update blocklist flowchart
 UI->API: Request to PATCH specific blocklist (api/blocklists/{id})
 API<--API: Validate if requester is authorized
 API->Database: Check if blocklist exists
+API<-Database: Return query result
 UI<--API: Return error if blocklist is not found
+API->Database: If new name is provided, check it is available
+API<-Database: Return query result
+UI<--API: Return error if name is taken
 API-->API: Validate provided IP(s)/CIDR(s)
 UI<--API: Return error if invalid values provided
 alt Validate IP(s)/CIDR(s) to add/remove are mutually exclusive
